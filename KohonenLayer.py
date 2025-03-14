@@ -13,7 +13,7 @@ class KohonenLayer:
                 temp_max = res[i]
         return [1 if temp_max == i else 0 for i in res]
 
-    def learn_layer(self, image):
+    def train_layer(self, image):
         res = [neuron.activate_all_image(image) for neuron in self.neurons]
         temp_ind = 0
         temp_max = res[temp_ind]
@@ -28,4 +28,8 @@ class KohonenLayer:
         target_neuron.set_weight(target_weights)
         if target_neuron.learning_rate > 0.01:
             target_neuron.learning_rate -= 0.01
+        if len(set(res)) == 1:
+            res = [0]*len(res)
+            res[-1] = 1
+            return res
         return [1 if temp_max == i else 0 for i in res]
