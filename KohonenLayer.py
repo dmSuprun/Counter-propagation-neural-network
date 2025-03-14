@@ -26,5 +26,6 @@ class KohonenLayer:
         for i in range(len(target_weights)):
             target_weights[i] += target_neuron.learning_rate * (image[i] - target_weights[i])
         target_neuron.set_weight(target_weights)
-        target_neuron.learning_rate -= 0.01
+        if target_neuron.learning_rate > 0.01:
+            target_neuron.learning_rate -= 0.01
         return [1 if temp_max == i else 0 for i in res]
