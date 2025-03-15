@@ -2,7 +2,7 @@ import random
 
 
 class GrosbergNeuron:
-    learning_rate = 0.7
+    learning_rate = 0.3
 
     def __init__(self, number_neurons_in_previous_layer):
         self.weights = [random.uniform(0, 1) for _ in range(number_neurons_in_previous_layer)]
@@ -15,4 +15,4 @@ class GrosbergNeuron:
 
     def train_neuron(self, input_image, output_image):
         for i in range(len(self.weights)):
-            self.weights[i] += self.learning_rate * (output_image[i] - self.weights[i]) * input_image[i]
+            self.weights[i] += self.learning_rate * (output_image - self.weights[i]) * input_image[i]

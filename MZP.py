@@ -1,3 +1,4 @@
+from random import random
 from KohonenLayer import KohonenLayer
 from GrosbergLayer import GrosbergLayer
 from Dataset import Dataset
@@ -12,27 +13,31 @@ class MZP:
                                           number_arguments)
         self.grosberg_layer = GrosbergLayer(self.number_element_in_image, number_neuron_in_kohonen_layer)
 
-
     def fit(self, image_x, image_y):
         if image_x is None:
-            outcome = self.kohonen_layer.fit_layer(None, image_y)
+            outcome = self.kohonen_layer.fit_wta_layer(None, image_y)
         else:
-            outcome = self.kohonen_layer.fit_layer(image_x, None)
+            outcome = self.kohonen_layer.fit_wta_layer(image_x, None)
+        print(outcome)
         return self.grosberg_layer.fit_layer(outcome)
 
     def train(self, data_train):
         for x in data_train:
-            outcome = self.kohonen_layer.train_layer(x)
-            self.grosberg_layer.train_layer(x, outcome)
-
-dt = Dataset([2,9])
-
-
-nw = MZP(2, 4, 2)
-nw.train(dt.get_train_data())
+            outcome = self.kohonen_layer.train_wta_layer(x)
+            print(outcome)
+            self.grosberg_layer.train_layer(outcome, x)
 
 
-print(nw.fit(dt.get_test_1_x()[0],None))
-print(dt.get_test_1_y()[0])
+dt = Dataset([20, 90])
 
+nw = MZP(2, 4, 6)
+dt.normalize()
+nw.train(dt.get_train())
 
+for i in range(len(dt.get_test_1_x())):
+    print(dt.get_test_1_x()[i], '->', dt.get_test_1_y()[i])
+    print(nw.fit(dt.get_test_1_x()[i], None))
+print('-' * 100)
+for i in range(len(dt.get_test_2_y())):
+    print(dt.get_test_2_x()[i], '->', dt.get_test_2_y()[i])
+    print(nw.fit(None, dt.get_test_2_y()[i]))

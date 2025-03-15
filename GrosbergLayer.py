@@ -8,9 +8,9 @@ class GrosbergLayer:
     def train_layer(self, input_image, output_image):
         for i in range(len(self.neurons)):
             target = self.neurons[i]
-            target.train_neuron(input_image, output_image)
-            if target.learning_rate > 0.01:
-                target.learning_rate -= 0.01
+            target.train_neuron(input_image, output_image[i])
+            # if target.learning_rate > 0.01:
+            #     target.learning_rate -= 0.01
 
     def fit_layer(self, input_image):
         return [self.neurons[i].activate_neuron(input_image) for i in range(len(self.neurons))]
