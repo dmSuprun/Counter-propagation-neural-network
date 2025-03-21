@@ -18,26 +18,14 @@ class MZP:
             outcome = self.kohonen_layer.fit_wta_layer(None, image_y)
         else:
             outcome = self.kohonen_layer.fit_wta_layer(image_x, None)
-        print(outcome)
         return self.grosberg_layer.fit_layer(outcome)
 
     def train(self, data_train):
+        iteration_and_error = {}
+        i=1
         for x in data_train:
             outcome = self.kohonen_layer.train_wta_layer(x)
-            print(outcome)
-            self.grosberg_layer.train_layer(outcome, x)
-
-
-dt = Dataset([20, 90])
-
-nw = MZP(2, 4, 6)
-dt.normalize()
-nw.train(dt.get_train())
-
-for i in range(len(dt.get_test_1_x())):
-    print(dt.get_test_1_x()[i], '->', dt.get_test_1_y()[i])
-    print(nw.fit(dt.get_test_1_x()[i], None))
-print('-' * 100)
-for i in range(len(dt.get_test_2_y())):
-    print(dt.get_test_2_x()[i], '->', dt.get_test_2_y()[i])
-    print(nw.fit(None, dt.get_test_2_y()[i]))
+            iteration_and_error[i] = self.grosberg_layer.train_layer(outcome, x)
+            i+=1
+        print('Мережа завершила своє навчання')
+        return iteration_and_error
